@@ -1,0 +1,140 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddSkillToProfile {
+  profileId: Int!
+  skillId: Int!
+}
+
+input CreateExperienceInput {
+  achivments: [String!]
+  company: String!
+  endDate: String!
+  position: String!
+  profileId: Int!
+  startDate: String!
+}
+
+input CreateProfileInput {
+  description: String
+  github: String
+  linkedIn: String
+  name: String!
+}
+
+input CreateProjectInput {
+  description: String
+  githubUrl: String
+  profileId: Int!
+  technologies: [String!]!
+  title: String!
+  url: String
+}
+
+input CreateSkillInput {
+  category: String!
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Experiences {
+  achivments: [String!]
+  company: String!
+  createdAt: DateTime!
+  endDate: DateTime!
+  id: Int!
+  position: String!
+  profileId: Int!
+  startDate: DateTime!
+  updatedAt: DateTime!
+}
+
+type Mutation {
+  addSkillToProfile(data: AddSkillToProfile!): Skill!
+  createExperience(data: CreateExperienceInput!): Experiences!
+  createProfile(data: CreateProfileInput!): Profile!
+  createProject(data: CreateProjectInput!): Project!
+  createSkill(data: CreateSkillInput!): Skill!
+  deleteExperience(id: Int!): Experiences!
+  deleteProfile(id: Float!): Profile!
+  deleteProject(id: Int!): Project!
+  deleteSkill(id: Int!): Skill!
+  removeSkillFromProfile(data: AddSkillToProfile!): Skill!
+  updateExperience(data: UpdateExperienceInput!, id: Int!): Experiences!
+  updateProfile(data: UpdateProfileInput!, id: Float!): Profile!
+  updateProject(data: UpdateProjectInput!, id: Int!): Project!
+}
+
+type Profile {
+  createdAt: DateTime!
+  description: String
+  experiences: [Experiences!]
+  github: String
+  id: Int!
+  linkedin: String
+  name: String!
+  projects: [Project!]
+  skills: [Skill!]
+  updatedAt: DateTime!
+}
+
+type Project {
+  createdAt: DateTime!
+  description: String
+  githubUrl: String
+  id: Int!
+  profileId: Int!
+  technologies: [String!]!
+  title: String!
+  updatedAt: DateTime!
+  url: String
+}
+
+type Query {
+  experience(id: Int!): Experiences!
+  experiences(id: Int!): [Experiences!]!
+  profile(id: Int!): Profile
+  project(id: Int!): Project!
+  projects(id: Int!): [Project!]!
+  skill(id: Int!): Skill
+  skills: [Skill!]!
+}
+
+type Skill {
+  category: String!
+  createdAt: DateTime!
+  id: Int!
+  name: String!
+  updatedAt: DateTime!
+}
+
+input UpdateExperienceInput {
+  achivments: [String!]
+  company: String
+  endDate: String
+  id: Int!
+  position: String
+  startDate: String
+}
+
+input UpdateProfileInput {
+  description: String
+  gitHub: String
+  id: Int!
+  linkedIn: String
+  name: String
+}
+
+input UpdateProjectInput {
+  description: String
+  githubUrl: String
+  id: Int!
+  technologies: [String!]
+  title: String
+  url: String
+}
