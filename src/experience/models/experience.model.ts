@@ -21,7 +21,7 @@ export class Experiences {
   endDate: Date;
 
   @Field(() => [String], { nullable: true })
-  achivments?: string[];
+  achievements?: string[];
 
   @Field()
   createdAt: Date;

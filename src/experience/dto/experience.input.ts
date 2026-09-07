@@ -22,7 +22,7 @@ export class CreateExperienceInput {
 
   @Field(() => [String], { nullable: true })
   @IsOptional()
-  achivments?: string[];
+  achievements?: string[];
 }
 
 @InputType()
@@ -50,5 +50,5 @@ export class UpdateExperienceInput {
 
   @Field(() => [String], { nullable: true })
   @IsOptional()
-  achivments?: string[];
+  achievements?: string[];
 }
