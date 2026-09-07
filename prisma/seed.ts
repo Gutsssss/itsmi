@@ -95,10 +95,20 @@ async function main() {
   await prisma.experience.deleteMany();
   await prisma.project.deleteMany();
 
-  // Отвязываем навыки от профилей
-  await prisma.profile.updateMany({
-    data: { skills: { set: [] } },
+  const allProfiles = await prisma.profile.findMany({
+    include: { skills: true },
   });
+
+  for (const profile of allProfiles) {
+    await prisma.profile.update({
+      where: { id: profile.id },
+      data: {
+        skills: {
+          disconnect: profile.skills.map((skill) => ({ id: skill.id })),
+        },
+      },
+    });
+  }
 
   await prisma.skill.deleteMany();
   await prisma.profile.deleteMany();
@@ -108,7 +118,7 @@ async function main() {
   const profile = await prisma.profile.create({
     data: MY_DATA.profile,
   });
-  console.log('✅ Создан профиль');
+  console.log('✅ Создан профиль:', profile.name);
 
   for (const skillEnt of MY_DATA.skills) {
     const skill = await prisma.skill.create({
@@ -124,15 +134,17 @@ async function main() {
       },
     });
   }
-  console.log('✅ Созданы навыки');
+  console.log(`✅ Создано ${MY_DATA.skills.length} навыков`);
 
   for (const exp of MY_DATA.experiences) {
     await prisma.experience.create({
       data: {
-        ...exp,
-        profileId: profile.id,
+        company: exp.company,
+        position: exp.position,
         startDate: new Date(exp.startDate),
         endDate: exp.endDate ? new Date(exp.endDate) : null,
+        achievements: exp.achievements,
+        profileId: profile.id,
       },
     });
   }
@@ -141,7 +153,10 @@ async function main() {
   for (const project of MY_DATA.projects) {
     await prisma.project.create({
       data: {
-        ...project,
+        title: project.title,
+        description: project.description,
+        githubUrl: project.githubUrl,
+        technologies: project.technologies,
         profileId: profile.id,
       },
     });
