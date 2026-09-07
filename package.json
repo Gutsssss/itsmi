@@ -23,7 +23,7 @@
     "prisma:migrate": "npx prisma migrate deploy",
     "postinstall": "npx prisma generate && npm run build",
     "prebuild": "npx prisma generate",
-    "render-build": "npm install --legacy-peer-deps && npx prisma generate && npm run build",
+    "render-build": "npm install --legacy-peer-deps && npx prisma generate && npm run build && npm run seed:prod",
     "deploy": "npm run build && npx prisma migrate deploy && npm run start:prod"
   },
   "dependencies": {
