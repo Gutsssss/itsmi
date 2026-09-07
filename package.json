@@ -21,7 +21,7 @@
     "seed": "ts-node prisma/seed.ts",
     "seed:prod": "node -r ts-node/register prisma/seed.ts",
     "prebuild": "npx prisma generate",
-    "render-build": "npm install && npx prisma generate && npm run build",
+    "render-build": "npm install --legacy-peer-deps && npx prisma generate && npm run build",
     "deploy": "npm run build && npx prisma migrate deploy && npm run start:prod"
   },
   "dependencies": {
