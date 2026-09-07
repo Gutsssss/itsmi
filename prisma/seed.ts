@@ -90,13 +90,32 @@ const MY_DATA = {
 };
 
 async function main() {
+  console.log('🧹 Очищаем базу данных...');
+
+  await prisma.experience.deleteMany();
+  await prisma.project.deleteMany();
+
+  // Отвязываем навыки от профилей
+  await prisma.profile.updateMany({
+    data: { skills: { set: [] } },
+  });
+
+  await prisma.skill.deleteMany();
+  await prisma.profile.deleteMany();
+
+  console.log('📝 Создаём новые данные...');
+
   const profile = await prisma.profile.create({
     data: MY_DATA.profile,
   });
+  console.log('✅ Создан профиль');
 
   for (const skillEnt of MY_DATA.skills) {
     const skill = await prisma.skill.create({
-      data: { name: skillEnt.name, category: skillEnt.category },
+      data: {
+        name: skillEnt.name,
+        category: skillEnt.category,
+      },
     });
     await prisma.profile.update({
       where: { id: profile.id },
@@ -105,6 +124,7 @@ async function main() {
       },
     });
   }
+  console.log('✅ Созданы навыки');
 
   for (const exp of MY_DATA.experiences) {
     await prisma.experience.create({
@@ -116,6 +136,7 @@ async function main() {
       },
     });
   }
+  console.log('✅ Создан опыт работы');
 
   for (const project of MY_DATA.projects) {
     await prisma.project.create({
@@ -125,8 +146,9 @@ async function main() {
       },
     });
   }
+  console.log('✅ Созданы проекты');
 
-  console.log('✅ Данные успешно загружены!');
+  console.log('🎉 База данных успешно заполнена!');
 }
 
 main()
