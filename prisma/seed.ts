@@ -94,9 +94,9 @@ async function main() {
     data: MY_DATA.profile,
   });
 
-  for (const skillName of MY_DATA.skills) {
+  for (const skillEnt of MY_DATA.skills) {
     const skill = await prisma.skill.create({
-      data: { name: skillName },
+      data: { name: skillEnt.name, category: skillEnt.category },
     });
     await prisma.profile.update({
       where: { id: profile.id },
